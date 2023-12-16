@@ -43,6 +43,19 @@
 
 PS：我不是这么配置的 只是举例子 我的tcp和udp分离 另外自己再开个端口和进程一起启动 用那个端口来监控
 
+## 配置ip6tables防火墙 (下面这个脚本配置到 防火墙启动后执行 里面)
+`8999是我的QBT用的 你们自己改改添加就好`
+```php
+# 开通IPV6 内网端口（内网的IPV6 就都开通了）
+ip6tables -A FORWARD -p tcp -m multiport --dports 2710,6969,8999 -j ACCEPT
+ip6tables -A FORWARD -p udp -m multiport --dports 2710,6969,8999 -j ACCEPT
+# 开通IPV6 外网访问（路由器的这些端口 能被访问）
+ip6tables -A INPUT -p tcp -m multiport --dports 2710,6969,8999 -j ACCEPT
+ip6tables -A INPUT -p udp -m multiport --dports 2710,6969,8999 -j ACCEPT
+
+```
+
+
 ##### ipv6你只要把路由器获取到的IPV6地址设置DDNS就好了 ipv4你需要设置NAT端口转发到你的路由器IP+端口
 #### 路由器挂TCP+ipv6就好了 udp的ipv4转发到内网IP来跑 减少路由器压力……（我的建议 当然你也可以不听） 
 `……这就是另一个故事了 我以前写过 一篇文章 提到如何配置node.js搭建tracker server 回头我看看弄个说明上来？`
