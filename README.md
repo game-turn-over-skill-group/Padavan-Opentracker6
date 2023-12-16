@@ -46,7 +46,7 @@ PS：我不是这么配置的 只是举例子 我的tcp和udp分离 另外自己
 ## 配置ip6tables防火墙 (下面这个脚本配置到 防火墙启动后执行 里面)
 `8999是我的QBT用的 你们自己改改添加就好`
 ```php
-# 开通IPV6 内网端口（内网的IPV6 就都开通了）
+# 开通IPV6 内网端口（内网的IPV6 就能通端口了）
 ip6tables -A FORWARD -p tcp -m multiport --dports 2710,6969,8999 -j ACCEPT
 ip6tables -A FORWARD -p udp -m multiport --dports 2710,6969,8999 -j ACCEPT
 # 开通IPV6 外网访问（路由器的这些端口 能被访问）
