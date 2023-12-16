@@ -58,7 +58,7 @@ ip6tables -A INPUT -p udp -m multiport --dports 2710,6969,8999 -j ACCEPT
 
 ##### ipv6你只要把路由器获取到的IPV6地址设置DDNS就好了 ipv4你需要设置NAT端口转发到你的路由器IP+端口
 #### 路由器挂TCP+ipv6就好了 udp的ipv4转发到内网IP来跑 减少路由器压力……（我的建议 当然你也可以不听） 
-`……这就是另一个故事了 我以前写过 一篇文章 提到如何配置node.js搭建tracker server 回头我看看弄个说明上来？`
+`……这就是另一个故事了 我以前写过 一篇文章 提到`<a href=https://github.com/lirener/lirener.github.io/wiki/%E4%BD%BF%E7%94%A8node%E5%AE%89%E8%A3%85bittorrent-tracker%E5%BB%BA%E7%AB%8Btracker%E6%9C%8D%E5%8A%A1%E5%99%A8(%E6%95%99%E7%A8%8B>如何配置node.js搭建tracker server</a>
 
 `别看我就说了这么多 我研究tracker移植 从exe到node.js再到php再到Linux(路由器)`
 
