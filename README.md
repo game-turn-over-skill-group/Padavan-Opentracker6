@@ -50,8 +50,8 @@ PS：我不是这么配置的 只是举例子 我的tcp和udp分离 另外自己
 ip6tables -A FORWARD -p tcp -m multiport --dports 2710,6969,8999 -j ACCEPT
 ip6tables -A FORWARD -p udp -m multiport --dports 2710,6969,8999 -j ACCEPT
 # 开通IPV6 外网访问（路由器的这些端口 能被访问）
-ip6tables -A INPUT -p tcp -m multiport --dports 2710,6969,8999 -j ACCEPT
-ip6tables -A INPUT -p udp -m multiport --dports 2710,6969,8999 -j ACCEPT
+ip6tables -A INPUT -p tcp -m multiport --dports 2710,6969 -j ACCEPT
+ip6tables -A INPUT -p udp -m multiport --dports 2710,6969 -j ACCEPT
 
 ```
 
