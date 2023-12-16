@@ -68,7 +68,9 @@ ip6tables -A INPUT -p udp -m multiport --dports 2710,6969,8999 -j ACCEPT
 
 `然后是断电脚本 这个我也配置了 但是还没测试 大致说一下吧 弄个文件名 SH102_opentracker6_Install.sh`
 
-`SH102这个数字你可能要根据你看到的脚本来排序来改 WinSCP连接路由器 丢到【/etc/storage/script/】目录下 每次断电启动后 循环执行里面的脚本`
+`SH102这个数字你可能要根据你看到的脚本来排序来改 WinSCP连接路由器 `
+
+`丢到【/etc/storage/script/】目录下 每次断电启动后 循环执行里面的脚本`
 
 `但是我要提醒你 必须稳定测试了 再去配置脚本 没个十几二十天 稳定的话 建议不要啥都往路由器安装。。`
 
