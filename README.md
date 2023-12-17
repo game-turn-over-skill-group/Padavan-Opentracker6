@@ -76,6 +76,7 @@ ip6tables -A INPUT -p udp -m multiport --dports 2710,6969 -j ACCEPT
 
 `我之前配置socat就是不小心输入错命令死了 还好重启路由器 能恢复`
 
+## 配置断电自动更新脚本(UTF-8格式)
 ```sh
 #!/bin/sh
 logger -t "开始更新opentracker6"
@@ -93,8 +94,15 @@ opentracker6 -p 666 -P 2710 -P 6969 &
 
 logger -t "opentracker6启动成功"
 ```
+`最后再提一下 脚本还没测试 等我测试报告 肯定是有点小问题 能不能用 我不知道 微软AI【copilot】教我写的……`
 
-#### 最后再提一下 脚本还没测试 等我测试报告 肯定是有点小问题 能不能用 我不知道 微软AI【copilot】教我写的……
+## 配置DDNS(路由器)cloudflare = CF
+```
+# 获取IPV6 LAN口
+ifconfig $(nvram get lan0_ifname_t) | awk '/Global/{print $3}' | awk -F/ '{print $1}' | head -n 1
+```
+`IPV6 udp 经过测试 WAN不工作 LAN工作  默认是配置WAN口的更新 所以我找AI替换了更新接口改为LAN `
+![配置DDNS脚本](https://raw.githubusercontent.com/game-turn-over-skill-group/Padavan-Opentracker6/2df19f84b281472787a3d3b05b6ee83a56c92095/%E9%85%8D%E7%BD%AEDDNS%E8%84%9A%E6%9C%AC.jpg)
 
 -----------------------------------------
 
