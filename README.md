@@ -78,16 +78,18 @@ ip6tables -A INPUT -p udp -m multiport --dports 2710,6969 -j ACCEPT
 
 ```sh
 #!/bin/sh
+logger -t "开始更新opentracker6"
 opkg update
 sleep 10
 opkg install opentracker6
 logger -t "opentracker6安装成功"
+sleep 5
+logger -t "正在启动...opentracker6：ipv6监听tcp:233、tcp:2710+6969"
 sleep 120
-logger -t "正在启动...opentracker6：ipv6监听tcp:2710+6969"
-opentracker6 -p 2710 -p 6969 &
-logger -t "正在启动...opentracker6：ipv6监听all:6666、udp:2710+6969"
+opentracker6 -p 233 -p 2710 -p 6969 &
 sleep 30
-opentracker6 -p 6666 -P 6666 -P 2710 -P 6969 &
+logger -t "正在启动...opentracker6：ipv6监听tcp:666、udp:2710+6969"
+opentracker6 -p 666 -P 2710 -P 6969 &
 
 logger -t "opentracker6启动成功"
 ```
