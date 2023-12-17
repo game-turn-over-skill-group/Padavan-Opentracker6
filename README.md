@@ -76,7 +76,12 @@ ip6tables -A INPUT -p udp -m multiport --dports 2710,6969 -j ACCEPT
 
 `我之前配置socat就是不小心输入错命令死了 还好重启路由器 能恢复`
 
-## 配置断电自动更新脚本(UTF-8格式)
+## 配置断电自动更新脚本(UTF-8格式)  
+<details>
+<summary> 点击：隐藏/显示【Click: Hide/Show】 </summary>
+
+$\color{green}{如果你挂载了USB盘的OPT 可以跳过这一步}$
+
 ```sh
 #!/bin/sh
 logger -t "开始更新opentracker6"
@@ -96,8 +101,10 @@ logger -t "opentracker6启动成功"
 ```
 `最后再提一下 脚本还没测试 等我测试报告 肯定是有点小问题 能不能用 我不知道 微软AI【copilot】教我写的……`
 
-## 配置DDNS(路由器)cloudflare = CF
-```
+</details>
+
+## 配置DDNS(路由器)cloudflare（CF）
+```sh
 # 获取IPV6 LAN口
 ifconfig $(nvram get lan0_ifname_t) | awk '/Global/{print $3}' | awk -F/ '{print $1}' | head -n 1
 ```
