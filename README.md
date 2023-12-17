@@ -31,7 +31,7 @@
 我下面简单描述一下
 
 #### 查看网络【netstat -apn】
-#### 进程连接 【netstat -apn|grep opentracker】
+#### 进程连接 【netstat -apn|grep opentracker | wc -l】
 #### 查看CPU 【top -b -n 1 |grep opentracker】
 
 `opentracker启动！小写 -p=tcp 大写 -P=udp`
@@ -93,5 +93,23 @@ logger -t "opentracker6启动成功"
 ```
 
 #### 最后再提一下 脚本还没测试 等我测试报告 肯定是有点小问题 能不能用 我不知道 微软AI【copilot】教我写的……
+
+-----------------------------------------
+
+#### 经过我这一段时间的测试 汇报一下测试结果 如下：
+
+`opentracker的TCP(http)基本正常工作 ipv4+ipv6(tcp)=OK`
+
+`opentracker的UDP国内IPV6=OK IPV4=NO 国外似乎都不工作?我觉得很大一部分可能和应用有关系！`
+
+`node.js（BT—tracker）UDP国内外 ipv4+ipv6=OK`
+
+`node.js（BT—tracker）TCP(http) 用户数量达到一定程度会卡顿系统和影响UDP链路程序卡顿 =半工作`
+
+`关于IPV6的UDP我有必要说一下QBT的node.js显示不工作 Tixia正常 所以IPV6存在很多应用兼容性不能的问题 opentracker的话QBT就显示工作`
+
+#### 所以答案很明显了 推荐：http（opentracker）、udp（node.js）
+
+
 
 
