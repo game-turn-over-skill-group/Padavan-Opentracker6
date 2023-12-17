@@ -109,19 +109,20 @@ logger -t "opentracker6启动成功"
 ifconfig $(nvram get lan0_ifname_t) | awk '/Global/{print $3}' | awk -F/ '{print $1}' | head -n 1
 ```
 `IPV6 udp 经过测试 WAN不工作 LAN工作  默认是配置WAN口的更新 所以我找AI替换了更新接口改为LAN `
+
 ![配置DDNS脚本](https://raw.githubusercontent.com/game-turn-over-skill-group/Padavan-Opentracker6/2df19f84b281472787a3d3b05b6ee83a56c92095/%E9%85%8D%E7%BD%AEDDNS%E8%84%9A%E6%9C%AC.jpg)
 
 -----------------------------------------
 
 #### 经过我这一段时间的测试 汇报一下测试结果 如下：
 
-`opentracker的TCP(http)基本正常工作 ipv4+ipv6(tcp)=OK`
+opentracker的TCP(http)基本正常工作 ipv4+ipv6(tcp)=OK
 
-`opentracker的UDP国内IPV6=OK IPV4=NO 国外似乎都不工作?我觉得很大一部分可能和应用有关系！`
+opentracker的UDP国内IPV6=OK IPV4=NO 国外似乎都不工作?我觉得很大一部分可能和应用有关系！
 
-`node.js（BT—tracker）UDP国内外 ipv4+ipv6=OK`
+node.js（BT—tracker）UDP国内外 ipv4+ipv6=OK
 
-`node.js（BT—tracker）TCP(http) 用户数量达到一定程度会卡顿系统和影响UDP链路程序卡顿 =半工作`
+node.js（BT—tracker）TCP(http) 用户数量达到一定程度会卡顿系统和影响UDP链路程序卡顿 =半工作
 
 `关于IPV6的UDP我有必要说一下QBT的node.js显示不工作 Tixia正常 所以IPV6存在很多应用兼容性不能的问题 opentracker的话QBT就显示工作`
 
