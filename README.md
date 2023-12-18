@@ -31,8 +31,9 @@
 我下面简单描述一下
 
 #### 查看网络【netstat -apn】
-#### 进程连接 【netstat -apn|grep opentracker | wc -l】
+#### 统计连接 【netstat -apn|grep opentracker | wc -l】
 #### 查看CPU 【top -b -n 1 |grep opentracker】
+#### 连接详情【netstat -ant |grep 2710 |awk ' {++S [$NF]} END {for (a in S) print a, S [a]}'】
 
 `opentracker启动！小写 -p=tcp 大写 -P=udp`
 ```css
