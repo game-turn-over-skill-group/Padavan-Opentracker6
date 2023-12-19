@@ -67,38 +67,61 @@ ip6tables -A INPUT -p udp -m multiport --dports 2710,6969 -j ACCEPT
 
 `光是研究这个tracker server的配置 我对着微软的AI-copilot各种问 文本记录都有30K了。。`
 
-`然后是断电脚本 这个我也配置了 但是还没测试 大致说一下吧 弄个文件名 SH102_opentracker6_Install.sh`
 
-`SH102这个数字你可能要根据你看到的脚本来排序来改 WinSCP连接路由器 `
-
-`丢到【/etc/storage/script/】目录下 每次断电启动后 循环执行里面的脚本`
-
-`但是我要提醒你 必须稳定测试了 再去配置脚本 没个十几二十天 稳定的话 建议不要啥都往路由器安装。。`
-
-`我之前配置socat就是不小心输入错命令死了 还好重启路由器 能恢复`
-
-## 配置断电自动更新脚本(UTF-8格式)  
+## 配置断电(重启)自动更新脚本(UTF-8格式)  
 <details>
 <summary> 点击：隐藏/显示【Click: Hide/Show】 </summary>
 
-$\color{green}{如果你挂载了USB盘的OPT 可以跳过这一步}$
+![上传文件后给与可执行权限](https://github.com/game-turn-over-skill-group/Padavan-Opentracker6/blob/main/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E5%90%8E%E7%BB%99%E4%B8%8E%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%9D%83%E9%99%90%EF%BC%81.png)
+
+`脚本命名为“Opentracker6_Install_Start.sh”  WinSCP连接路由器 丢到【/etc/storage/】目录下`
+
+`上传文件后必须右击属性 3个X的可执行权限打勾✔ `
+
+`在自定义脚本 路由器启动后执行 添加下面命令`
+
+```php
+#执行我的脚本
+/etc/storage/Opentracker6_Install_Start.sh
+```
+![路由器启动后执行我的脚本](https://raw.githubusercontent.com/game-turn-over-skill-group/Padavan-Opentracker6/main/%E5%9C%A8%E8%B7%AF%E7%94%B1%E5%99%A8%E5%90%AF%E5%8A%A8%E5%90%8E%E6%89%A7%E8%A1%8C%E6%88%91%E7%9A%84%E8%84%9A%E6%9C%AC.png)
 
 ```sh
 #!/bin/sh
-logger -t "开始更新opentracker6"
-opkg update
-sleep 10
-opkg install opentracker6
-logger -t "opentracker6安装成功"
-sleep 5
-logger -t "正在启动...opentracker6：ipv6监听tcp:233、tcp:2710+6969"
-sleep 120
-opentracker6 -p 233 -p 2710 -p 6969 &
-sleep 30
-logger -t "正在启动...opentracker6：ipv6监听tcp:666、udp:2710+6969"
-opentracker6 -p 666 -P 2710 -P 6969 &
+#查找opentracker6安装路径;如果返回0,则开始安装更新;安装后写入txt判断内容:是否安装成功。
+which opentracker6
+if [ $? -eq 0 ]; then
+	logger -t "开始更新opentracker6"
+	opkg update && opkg install opentracker6 | tee opt6_log.txt
+	if [ -n "$(grep "Configuring opentracker" opt6_log.txt)" ]; then
+		logger -t "opentracker6安装成功"
+		else
+			logger -t "opentracker6安装失败"
+			exit 1
+	fi
 
-logger -t "opentracker6启动成功"
+fi
+
+#我睡5秒觉 没毛病吧？
+logger -t "正在启动...opentracker6"
+sleep 5
+
+#查找opentracker6安装路径;如果返回不等于0,则启动;检测进程连接是否为0,不等于0则启动成功,反之失败。
+which opentracker6
+if [ $? -ne 0 ]; then
+	result=$(netstat -apn|grep opentracker | wc -l)
+	if [ $result -ne 0 ]; then
+		#ipv6监听tcp:233、tcp:2710+6969
+		opentracker6 -p 233 -P 233 -p 2710 -p 6969 &
+		#ipv6监听tcp:666、udp:2710+6969
+		opentracker6 -p 666 -P 2710 -P 6969 &
+		logger -t "opentracker6启动成功"
+		else
+			logger -t "opentracker6已启动or未知失败"
+			exit 1
+	fi
+fi
+
 ```
 `最后再提一下 脚本还没测试 等我测试报告 肯定是有点小问题 能不能用 我不知道 微软AI【copilot】教我写的……`
 
