@@ -88,7 +88,7 @@ ip6tables -A INPUT -p udp -m multiport --dports 2710,6969 -j ACCEPT
 
 ```sh
 #!/bin/sh
-#查找opentracker6安装路径;如果返回0,则开始安装更新;安装后写入txt判断内容:是否安装成功。
+#查找opentracker6安装路径;如果退出状态不为0(未安装),则开始安装更新;安装后写入txt判断内容:是否安装成功。
 which opentracker6
 if [ $? -ne 0 ]; then
 	logger -t "开始更新opentracker6"
