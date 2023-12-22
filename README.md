@@ -106,7 +106,7 @@ fi
 #logger -t "正在启动...opentracker6"
 #sleep 5
 
-#查找opentracker6安装路径;如果返回不等于0,则启动;检测进程连接是否为0,不等于0则启动成功,反之失败。
+#查找opentracker6安装路径;如果退出状态等于0(已安装),则启动;检测进程连接是否为0,不等于0则启动成功,反之失败。
 which opentracker6
 if [ $? -eq 0 ]; then
 	result=$(netstat -apn|grep opentracker | wc -l)
