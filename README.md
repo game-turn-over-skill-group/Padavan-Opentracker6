@@ -85,7 +85,7 @@ ip6tables -A INPUT -p udp -m multiport --dports 2710,6969 -j ACCEPT
 /etc/storage/Opentracker6_Install_Start.sh
 logger -t "【opentracker6】" "更新安装 执行完毕"
 ```
-![路由器启动后执行我的脚本](https://raw.githubusercontent.com/game-turn-over-skill-group/Padavan-Opentracker6/main/%E5%9C%A8%E8%B7%AF%E7%94%B1%E5%99%A8%E5%90%AF%E5%8A%A8%E5%90%8E%E6%89%A7%E8%A1%8C%E6%88%91%E7%9A%84%E8%84%9A%E6%9C%AC.png)
+![自定义脚本配置](https://raw.githubusercontent.com/game-turn-over-skill-group/Padavan-Opentracker6/83159d98d34c8609dcc1fad12ee5a379affa1a30/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%84%9A%E6%9C%AC%E9%85%8D%E7%BD%AE.jpg)
 
 ```sh
 #!/bin/sh
