@@ -78,13 +78,13 @@ ip6tables -A INPUT -p udp -m multiport --dports 2710,6969 -j ACCEPT
 
 `上传文件后必须右击属性 3个X的可执行权限打勾✔ `
 
-`在自定义脚本 路由器启动后执行 添加下面命令`
+`在定时计划任务中 添加下面命令`
 
 ```php
 # 每5分钟 更新并启动opentracker6 （因为在自定义脚本中添加更新也没办法保证启动）
 */5 * * * * /etc/storage/Opentracker6_Install_Start.sh &
 ```
-![计划任务配置]()
+![计划任务配置](https://raw.githubusercontent.com/game-turn-over-skill-group/Padavan-Opentracker6/2bc9f515aaa959d18bec57770709dc6588a51bff/%E5%9C%A8%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E4%B8%AD%E6%B7%BB%E5%8A%A0opentracker6%E6%9B%B4%E6%96%B0%E5%92%8C%E5%90%AF%E5%8A%A8.jpg)
 
 ```sh
 #!/bin/sh
@@ -131,7 +131,8 @@ if [ $? -eq 0 ]; then
 fi
 
 ```
-`最后再提一下 脚本还没测试 等我测试报告 肯定是有点小问题 能不能用 我不知道 微软AI【copilot】教我写的……`
+
+`和微软AI【copilot】4.0精准引擎 通宵畅聊几小时且经过测试后 修改出来的脚本 大概率是没毛病了`
 
 </details>
 
