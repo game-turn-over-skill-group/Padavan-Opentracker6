@@ -81,11 +81,10 @@ ip6tables -A INPUT -p udp -m multiport --dports 2710,6969 -j ACCEPT
 `在自定义脚本 路由器启动后执行 添加下面命令`
 
 ```php
-# 更新并启动opentracker6
-/etc/storage/Opentracker6_Install_Start.sh
-logger -t "【opentracker6】" "更新安装 执行完毕"
+# 每5分钟 更新并启动opentracker6 （因为在自定义脚本中添加更新也没办法保证启动）
+*/5 * * * * /etc/storage/Opentracker6_Install_Start.sh &
 ```
-![自定义脚本配置](https://raw.githubusercontent.com/game-turn-over-skill-group/Padavan-Opentracker6/83159d98d34c8609dcc1fad12ee5a379affa1a30/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%84%9A%E6%9C%AC%E9%85%8D%E7%BD%AE.jpg)
+![计划任务配置]()
 
 ```sh
 #!/bin/sh
@@ -96,6 +95,7 @@ if [ $? -ne 0 ]; then
 	opkg update && opkg install opentracker6 | tee opt6_log.txt
 	if [ -n "$(grep "Configuring opentracker" opt6_log.txt)" ]; then
 		echo "opentracker6安装成功"
+		logger -t "【opentracker6】" "安装成功"
 		else
 			echo "opentracker6安装失败"
 			exit 1
@@ -107,19 +107,26 @@ fi
 #echo "正在启动...opentracker6"
 #sleep 5
 
-#查找opentracker6安装路径;如果退出状态等于0(已安装),则启动;检测进程连接是否为0,不等于0则启动成功,反之失败。
+#查找opentracker6安装路径;如果退出状态等于0(已安装),则启动;检测进程是否存在，如果不存在则启动，如果存在则提示。
 which opentracker6
 if [ $? -eq 0 ]; then
-	result=$(netstat -apn|grep opentracker | wc -l)
-	if [ $result = "0" ]; then
-		#ipv6监听tcp:233、tcp:2710+6969
+	#ipv6监听tcp:233、tcp:2710+6969
+	result1=$(top -b -n 1 | grep "opentracker6 -p 233 -P 233 -p 2710 -p 6969" | wc -l)
+	if [ $result1 = "1" ]; then
 		opentracker6 -p 233 -P 233 -p 2710 -p 6969 &
-		#ipv6监听tcp:666、udp:2710+6969
+		echo "【opentracker6】进程233启动成功"
+		logger -t "【opentracker6】" "进程233启动成功"
+	else
+		echo "【opentracker6】进程233已启动"
+	fi
+	#ipv6监听tcp:666、udp:2710+6969
+	result2=$(top -b -n 1 | grep "opentracker6 -p 666 -P 2710 -P 6969" | wc -l)
+	if [ $result2 = "1" ]; then
 		opentracker6 -p 666 -P 2710 -P 6969 &
-		echo "opentracker6启动成功"
-		else
-			echo "opentracker6已启动or未知失败"
-			exit 1
+		echo "【opentracker6】进程666启动成功"
+		logger -t "【opentracker6】" "进程666启动成功"
+	else
+		echo "【opentracker6】进程666已启动"
 	fi
 fi
 
