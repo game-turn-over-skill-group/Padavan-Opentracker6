@@ -81,53 +81,57 @@ ip6tables -A INPUT -p udp -m multiport --dports 2710,6969 -j ACCEPT
 `在定时计划任务中 添加下面命令`
 
 ```php
-# 每5分钟 更新并启动opentracker6 （因为在自定义脚本中添加更新也没办法保证启动）
-*/5 * * * * /etc/storage/Opentracker6_Install_Start.sh &
+# 每1分钟 更新并启动opentracker6 （因为在自定义脚本中添加更新也没办法保证启动）
+*/1 * * * * /etc/storage/Opentracker6_Install_Start.sh &
+# 写入日志查看错误信息模式
+#*/1 * * * * /bin/sh /etc/storage/Opentracker6_Install_Start.sh >> opt/tmp/cron_opentracker6.log 2>&1
 ```
-![计划任务配置](https://raw.githubusercontent.com/game-turn-over-skill-group/Padavan-Opentracker6/2bc9f515aaa959d18bec57770709dc6588a51bff/%E5%9C%A8%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E4%B8%AD%E6%B7%BB%E5%8A%A0opentracker6%E6%9B%B4%E6%96%B0%E5%92%8C%E5%90%AF%E5%8A%A8.jpg)
+![计划任务脚本]()
 
 ```sh
 #!/bin/sh
-#查找opentracker6安装路径;如果退出状态不为0(未安装),则开始安装更新;安装后写入txt判断内容:是否安装成功。
-which opentracker6
-if [ $? -ne 0 ]; then
-	echo "开始更新opentracker6"
-	opkg update && opkg install opentracker6 | tee opt6_log.txt
-	if [ -n "$(grep "Configuring opentracker" opt6_log.txt)" ]; then
-		echo "opentracker6安装成功"
-		logger -t "【opentracker6】" "安装成功"
-		else
-			echo "opentracker6安装失败"
-			exit 1
-	fi
+export PATH="/sbin:/bin:/usr/sbin:/usr/bin:/opt/sbin:/opt/bin:/opt/usr/sbin:/opt/usr/bin"
 
+# 判断opentracker6是否安装
+if [ -z "$(opkg list-installed | grep opentracker6)" ]; then
+    # 如果未安装，执行安装命令
+    opkg update && opkg install opentracker6 > /opt/tmp/opt6_log.txt 2>&1
+
+    if [ -n "$(grep "Configuring opentracker6" /opt/tmp/opt6_log.txt)" ]; then
+        echo "【opentracker6】安装成功"
+        logger -t "【opentracker6】" "安装成功"
+    elif [ -n "$(grep "installed in root is up to date" /opt/tmp/opt6_log.txt)" ]; then
+        echo "【opentracker6】已安装，无需重复安装。"
+        logger -t "【opentracker6】" "已安装，无需重复安装。"
+    else
+        echo "【opentracker6】安装失败"
+        logger -t "【opentracker6】" "安装失败"
+    fi
+else
+    echo "【opentracker6】已安装"
 fi
 
-#我睡5秒觉 没毛病吧？
-#echo "正在启动...opentracker6"
-#sleep 5
+# 判断opentracker6是否安装，如果安装，开始执行下面的操作
+if [ -n "$(opkg list-installed | grep opentracker6)" ]; then
+    # ipv6监听tcp:233、tcp:2710+6969
+    result1=$(top -b -n 1 | grep "opentracker6 -p 233 -P 233 -p 2710 -p 6969" | wc -l)
+    if [ $result1 = "0" ]; then
+        opentracker6 -p 233 -P 233 -p 2710 -p 6969 &
+        echo "【opentracker6】进程233启动成功"
+        logger -t "【opentracker6】" "进程233启动成功"
+    else
+        echo "【opentracker6】进程233已启动"
+    fi
 
-#查找opentracker6安装路径;如果退出状态等于0(已安装),则启动;检测进程是否存在，如果不存在则启动，如果存在则提示。
-which opentracker6
-if [ $? -eq 0 ]; then
-	#ipv6监听tcp:233、tcp:2710+6969
-	result1=$(top -b -n 1 | grep "opentracker6 -p 233 -P 233 -p 2710 -p 6969" | wc -l)
-	if [ $result1 = "1" ]; then
-		opentracker6 -p 233 -P 233 -p 2710 -p 6969 &
-		echo "【opentracker6】进程233启动成功"
-		logger -t "【opentracker6】" "进程233启动成功"
-	else
-		echo "【opentracker6】进程233已启动"
-	fi
-	#ipv6监听tcp:666、udp:2710+6969
-	result2=$(top -b -n 1 | grep "opentracker6 -p 666 -P 2710 -P 6969" | wc -l)
-	if [ $result2 = "1" ]; then
-		opentracker6 -p 666 -P 2710 -P 6969 &
-		echo "【opentracker6】进程666启动成功"
-		logger -t "【opentracker6】" "进程666启动成功"
-	else
-		echo "【opentracker6】进程666已启动"
-	fi
+    # ipv6监听tcp:666、udp:2710+6969
+    result2=$(top -b -n 1 | grep "opentracker6 -p 666 -P 2710 -P 6969" | wc -l)
+    if [ $result2 = "0" ]; then
+        opentracker6 -p 666 -P 2710 -P 6969 &
+        echo "【opentracker6】进程666启动成功"
+        logger -t "【opentracker6】" "进程666启动成功"
+    else
+        echo "【opentracker6】进程666已启动"
+    fi
 fi
 
 ```
