@@ -86,7 +86,7 @@ ip6tables -A INPUT -p udp -m multiport --dports 2710,6969 -j ACCEPT
 # 写入日志查看错误信息模式
 #*/1 * * * * /bin/sh /etc/storage/Opentracker6_Install_Start.sh >> opt/tmp/cron_opentracker6.log 2>&1
 ```
-![计划任务脚本]()
+![计划任务脚本](https://raw.githubusercontent.com/game-turn-over-skill-group/Padavan-Opentracker6/b18dc4411e8ff213bfd50b5a27032dbf1164b065/%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E8%84%9A%E6%9C%AC.jpg)
 
 ```sh
 #!/bin/sh
@@ -136,7 +136,9 @@ fi
 
 ```
 
-`和微软AI【copilot】4.0精准引擎 通宵畅聊几小时且经过测试后 修改出来的脚本 大概率是没毛病了`
+`和微软AI【copilot】4.0精准引擎 通宵畅聊几小时且经过测试后 修改出来的脚本 大概率是没毛病了(还是有毛病不过修复了)`
+
+`直接找总部chatGPT帮我改脚本 经过一系列调试之后解决了部分命令在计划任务中 不支持的问题……`
 
 </details>
 
