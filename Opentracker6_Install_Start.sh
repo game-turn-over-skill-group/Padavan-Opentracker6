@@ -1,8 +1,8 @@
 #!/bin/sh
 export PATH="/sbin:/bin:/usr/sbin:/usr/bin:/opt/sbin:/opt/bin:/opt/usr/sbin:/opt/usr/bin"
 
-# 判断opentracker6是否安装
-if [ -z "$(opkg list-installed | grep opentracker6)" ]; then
+# 判断opentracker6安装路径是否为空
+if [ -z "$(which opentracker6)" ]; then
     # 如果未安装，执行安装命令
     opkg update && opkg install opentracker6 > /opt/tmp/opt6_log.txt 2>&1
 
@@ -21,7 +21,7 @@ else
 fi
 
 # 判断opentracker6是否安装，如果安装，开始执行下面的操作
-if [ -n "$(opkg list-installed | grep opentracker6)" ]; then
+if [[ $(which opentracker6) == "/opt/bin/opentracker6" ]]; then
     # ipv6监听tcp:233、tcp:2710+6969
     result1=$(top -b -n 1 | grep "opentracker6 -p 233 -P 233 -p 2710 -p 6969" | wc -l)
     if [ $result1 = "0" ]; then
