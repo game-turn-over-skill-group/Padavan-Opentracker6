@@ -82,7 +82,7 @@ ip6tables -A INPUT -p udp -m multiport --dports 2710,6969 -j ACCEPT
 
 ```php
 # 每1分钟 更新并启动opentracker6 （因为在自定义脚本中添加更新也没办法保证启动）
-*/1 * * * * /etc/storage/Opentracker6_Install_Start.sh & > /dev/null 2>&1
+*/1 * * * * /etc/storage/Opentracker6_Install_Start.sh > /dev/null 2>&1 & 
 # 写入日志查看错误信息模式
 #*/1 * * * * /bin/sh /etc/storage/Opentracker6_Install_Start.sh >> /opt/tmp/cron_opentracker6.log 2>&1
 ```
