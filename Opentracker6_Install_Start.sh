@@ -24,7 +24,7 @@ fi
 if [[ $(which opentracker6) == "/opt/bin/opentracker6" ]]; then
     # ipv6监听tcp:233、tcp:2710+6969
     result1=$(top -b -n 1 | grep "opentracker6 -p 233 -P 233 -p 2710 -p 6969" | wc -l)
-    if [ $result1 = "0" ]; then
+    if [ $result1 = "1" ]; then
         opentracker6 -p 233 -P 233 -p 2710 -p 6969 &
         echo "【opentracker6】进程233启动成功"
         logger -t "【opentracker6】" "进程233启动成功"
@@ -34,7 +34,7 @@ if [[ $(which opentracker6) == "/opt/bin/opentracker6" ]]; then
 
     # ipv6监听tcp:666、udp:2710+6969
     result2=$(top -b -n 1 | grep "opentracker6 -p 666 -P 2710 -P 6969" | wc -l)
-    if [ $result2 = "0" ]; then
+    if [ $result2 = "1" ]; then
         opentracker6 -p 666 -P 2710 -P 6969 &
         echo "【opentracker6】进程666启动成功"
         logger -t "【opentracker6】" "进程666启动成功"
