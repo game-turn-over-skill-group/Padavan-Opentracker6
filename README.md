@@ -78,11 +78,19 @@ ip6tables -A INPUT -p udp -m multiport --dports 2710,6969 -j ACCEPT
 
 `上传文件后必须右击属性 3个X的可执行权限打勾✔ `
 
-`在定时计划任务中 添加下面命令`
+`在路由器启动后执行 添加下面命令(脚本在项目中下载)`
+
+```php
+# 路由器启动后 执行1次重启crond进程 移除日志记录等级为8
+/etc/storage/script/restart_crond.sh keep &
+```
+![添加路由器启动后执行脚本](https://raw.githubusercontent.com/game-turn-over-skill-group/Padavan-Opentracker6/ac967a33dda064824a1e66c8f7a6aca6c1437713/%E6%B7%BB%E5%8A%A0%E8%B7%AF%E7%94%B1%E5%99%A8%E5%90%AF%E5%8A%A8%E5%90%8E%E6%89%A7%E8%A1%8C%E8%84%9A%E6%9C%AC.jpg)
+
+`在定时计划任务中 添加下面命令(脚本在项目中下载 以下展示内容不能保证最新)`
 
 ```php
 # 每1分钟 更新并启动opentracker6 （因为在自定义脚本中添加更新也没办法保证启动）
-*/1 * * * * /etc/storage/Opentracker6_Install_Start.sh > /dev/null 2>&1 & 
+*/1 * * * * /etc/storage/Opentracker6_Install_Start.sh & 
 # 写入日志查看错误信息模式
 #*/1 * * * * /bin/sh /etc/storage/Opentracker6_Install_Start.sh >> /opt/tmp/cron_opentracker6.log 2>&1
 ```
