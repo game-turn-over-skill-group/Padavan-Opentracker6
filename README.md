@@ -12,6 +12,12 @@
 
 #### 特别说明一下 只需要安装 opentracker6 就行了 就支持ipv4+ipv6 如果你只需要ipv4就安装 不带6字的
 
+```
+ [2024年12月01日 17:46:44] 补充说明:
+ http ipv4 需要安装 opentracker 不然部分应用不会返回ip 比如Tixati 虽然比特彗星会返回 但是还是建议分离开启动 
+ 如果使用樱酱安装编译的tracker 则不需要区分应用
+```
+
 ![配置opentracker6](https://raw.githubusercontent.com/game-turn-over-skill-group/Padavan-Opentracker6/55a3deaa99fad31effecca4a66d01c19dc5483dc/%E9%85%8D%E7%BD%AEopentracker6.png)
 
 ![opt安装包](https://raw.githubusercontent.com/game-turn-over-skill-group/Padavan-Opentracker6/55a3deaa99fad31effecca4a66d01c19dc5483dc/opentracker%E5%AE%89%E8%A3%85%E5%8C%85.png)
