@@ -1,0 +1,34 @@
+
+
+当前版本：
+opentracker2——armv8-OpenWrt 23.05.2【libowfat-0.33】
+
+
+把文件复制到usr/bin目录 给与可执行权限
+
+2024年11月29日 22:14:47 多亏樱酱的帮助 完成了编译opentracker
+樱酱论坛-编译教程：https://bbs.itzmx.com/thread-18214-1-1.html
+openwrt系统关键问题：https://forum.openwrt.org/t/usr-bin-ld-cannot-find-lpthread/18404
+
+当前编译使用版本：libowfat-0.33（改名后只保留libowfat）
+wget https://github.com/1265578519/OpenTracker/archive/master.zip -O /tmp/OpenTracker.zip
+unzip OpenTracker.zip
+cd /tmp
+cd OpenTracker-master
+cd libowfat
+ar -rc /usr/lib/libpthread.a
+make
+cd ..
+cd opentracker
+make
+
+需要安装的软件包
+unzip//默认存在
+wget//默认存在
+gcc//安装可能失败 体积40mb+需要耐心等待 如果失败就重新卸载安装 默认存在libgcc1
+zlib-dev//安装完毕 默认不存在zlib-devel
+make//安装完毕
+
+
+
+
